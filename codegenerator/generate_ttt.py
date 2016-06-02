@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # This script is... less than ideal.
 # It was cobbled together just to one-off generate the tictactoe.py file.
 
@@ -36,14 +38,14 @@ print('  1|2|3')"""
 def isWinner(bo, le):
     # Given a board and a player's letter, this function returns True if that player has won.
     # We use bo instead of board and le instead of letter so we don't have to type as much.
-    return ((bo[7] == le and bo[8] == le and bo[9] == le) or # across the top
-    (bo[4] == le and bo[5] == le and bo[6] == le) or # across the middle
-    (bo[1] == le and bo[2] == le and bo[3] == le) or # across the bottom
-    (bo[7] == le and bo[4] == le and bo[1] == le) or # down the left side
-    (bo[8] == le and bo[5] == le and bo[2] == le) or # down the middle
-    (bo[9] == le and bo[6] == le and bo[3] == le) or # down the right side
-    (bo[7] == le and bo[5] == le and bo[3] == le) or # diagonal
-    (bo[9] == le and bo[5] == le and bo[1] == le)) # diagonal
+    return ((bo[7] in [le, "⛒"] and bo[8] in [le, "⛒"] and bo[9] in [le, "⛒"]) or # across the top
+    (bo[4] in [le, "⛒"] and bo[5] in [le, "⛒"] and bo[6] in [le, "⛒"]) or # across the middle
+    (bo[1] in [le, "⛒"] and bo[2] in [le, "⛒"] and bo[3] in [le, "⛒"]) or # across the bottom
+    (bo[7] in [le, "⛒"] and bo[4] in [le, "⛒"] and bo[1] in [le, "⛒"]) or # down the left side
+    (bo[8] in [le, "⛒"] and bo[5] in [le, "⛒"] and bo[2] in [le, "⛒"]) or # down the middle
+    (bo[9] in [le, "⛒"] and bo[6] in [le, "⛒"] and bo[3] in [le, "⛒"]) or # down the right side
+    (bo[7] in [le, "⛒"] and bo[5] in [le, "⛒"] and bo[3] in [le, "⛒"]) or # diagonal
+    (bo[9] in [le, "⛒"] and bo[5] in [le, "⛒"] and bo[1] in [le, "⛒"])) # diagonal
 
 
 def isSpaceFree(board, move):
@@ -139,8 +141,13 @@ def printMove(originalBoard, indent=0):
         board = copy.copy(originalBoard)
 
         if not isSpaceFree(board, move):
-            logging.debug('skipping %s' % (move))
-            continue
+            if board[move] != '⛒':
+                board[move] = '⛒'
+            else:
+                logging.debug('skipping %s' % (move))
+                continue
+        else:
+            board[move] = 'X'
 
         print('    ' * indent + "if move == '%s':" % (move))
         #if computerMoveMsg != '':
@@ -150,8 +157,7 @@ def printMove(originalBoard, indent=0):
         #print(getPrintedBoard(board, indent))
 
         logging.debug('moving on %s' % (move))
-        board[move] = 'X'
-
+        
         if isWinner(board, 'X'):
             print(getPrintedBoard(board, (indent+1)))
             print('    ' * (indent+1) + "print('You have won!')")
@@ -182,7 +188,7 @@ def printMove(originalBoard, indent=0):
         #printMove(copy.copy(board), indent + 1, allComputerMoveMessages[compMove])
         printMove(copy.copy(board), indent + 1)
 
-
+print('# -*- coding: utf-8 -*-')
 print('import sys')
 print('if sys.version_info[0] == 2:')
 print('    input = raw_input # python 2 compatibility')
